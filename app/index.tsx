@@ -1,15 +1,7 @@
-import { LinearGradient } from "expo-linear-gradient";
-import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import {
-  Dimensions,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
+import CustomButton from "../components/Button";
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -30,43 +22,21 @@ export default function Index() {
       />
 
       <View style={styles.buttonWrapper}>
-        {/* Sign In Button */}
-        <TouchableOpacity onPress={() => router.navigate("./signin")}>
-          <LinearGradient
-            colors={["#6075FF", "#1433FF"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={[styles.signinButton, styles.sharedShadow]}
-          >
-            <View style={styles.buttonContent}>
-              <Text style={styles.signinText}>Sign In</Text>
-              <Image
-                source={require("../assets/images/arrow.png")}
-                style={styles.arrowIcon}
-              />
-            </View>
-          </LinearGradient>
-        </TouchableOpacity>
+        <CustomButton
+          variant="blue"
+          text="Sign In"
+          arrowIcon={require("../assets/images/arrow.png")}
+          backgroundImage={require("../assets/images/Group1.png")}
+          navigateTo="./signin"
+        />
 
-        {/* Sign Up Button */}
-        <TouchableOpacity onPress={() => router.navigate("./signin")}>
-          <LinearGradient
-            colors={["#6075FF", "#1433FF"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={[styles.gradientBorder, styles.sharedShadow]}
-          >
-            <View style={styles.whiteInner}>
-              <View style={styles.buttonContent}>
-                <Text style={styles.signupText}>Sign Up</Text>
-                <Image
-                  source={require("../assets/images/arrow2.png")}
-                  style={styles.arrowIcon}
-                />
-              </View>
-            </View>
-          </LinearGradient>
-        </TouchableOpacity>
+        <CustomButton
+          variant="white"
+          text="Sign Up"
+          arrowIcon={require("../assets/images/arrow2.png")}
+          backgroundImage={require("../assets/images/Group2.png")}
+          navigateTo="./signup"
+        />
       </View>
     </View>
   );
@@ -87,52 +57,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 46,
     gap: 26,
     marginTop: 80,
-  },
-  signinButton: {
-    borderRadius: 28,
-    height: 72,
-    width: "100%",
-    justifyContent: "center",
-    paddingHorizontal: 24,
-  },
-  gradientBorder: {
-    borderRadius: 28,
-    padding: 1,
-    backgroundColor: "transparent",
-  },
-  whiteInner: {
-    backgroundColor: "#fff",
-    borderRadius: 27,
-    height: 72,
-    justifyContent: "center",
-    paddingHorizontal: 24,
-  },
-  buttonContent: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-  },
-  signinText: {
-    color: "#fff",
-    fontWeight: "400",
-    fontSize: 20,
-  },
-  signupText: {
-    color: "#556BFF",
-    fontWeight: "400",
-    fontSize: 20,
-  },
-  arrowIcon: {
-    width: 21,
-    height: 17,
-    resizeMode: "contain",
-  },
-  sharedShadow: {
-    shadowColor: "#1B39FF",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.2,
-    shadowRadius: 16,
-    elevation: 8,
   },
 });

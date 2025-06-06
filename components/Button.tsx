@@ -1,0 +1,213 @@
+import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
+import React from "react";
+import {
+  Image,
+  ImageSourcePropType,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+
+interface Props {
+  variant: "blue" | "white" | "otp" | "outline";
+  text: string;
+  arrowIcon?: ImageSourcePropType;
+  backgroundImage?: ImageSourcePropType;
+  backgroundImage2?: ImageSourcePropType;
+  navigateTo: string;
+}
+
+export default function CustomButton({
+  variant,
+  text,
+  arrowIcon,
+  backgroundImage,
+  backgroundImage2,
+  navigateTo,
+}: Props) {
+  const router = useRouter();
+
+  if (variant === "blue") {
+    return (
+      <TouchableOpacity onPress={() => router.navigate(navigateTo as any)}>
+        <LinearGradient
+          colors={["#6075FF", "#1433FF"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={[styles.signinButton, styles.sharedShadow]}
+        >
+          {backgroundImage && (
+            <Image source={backgroundImage} style={styles.group1Image} />
+          )}
+          <View style={styles.buttonContent}>
+            <Text style={styles.signinText}>{text}</Text>
+            <Image source={arrowIcon} style={styles.arrowIcon} />
+          </View>
+        </LinearGradient>
+      </TouchableOpacity>
+    );
+  }
+
+  if (variant === "white") {
+    return (
+      <TouchableOpacity onPress={() => router.navigate(navigateTo as any)}>
+        <LinearGradient
+          colors={["#6075FF", "#1433FF"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={[styles.gradientBorder, styles.sharedShadow]}
+        >
+          {backgroundImage && (
+            <Image source={backgroundImage} style={styles.group2Image} />
+          )}
+          <View style={styles.whiteInner}>
+            <View style={styles.buttonContent}>
+              <Text style={styles.signupText}>{text}</Text>
+              <Image source={arrowIcon} style={styles.arrowIcon} />
+            </View>
+          </View>
+        </LinearGradient>
+      </TouchableOpacity>
+    );
+  }
+
+  if (variant === "otp") {
+    return (
+      <TouchableOpacity onPress={() => router.navigate(navigateTo as any)}>
+        <LinearGradient
+          colors={["#6075FF", "#1433FF"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={[styles.otpButton, styles.sharedShadow]}
+        >
+          {backgroundImage && (
+            <Image source={backgroundImage} style={styles.group1Image} />
+          )}
+          {backgroundImage2 && (
+            <Image source={backgroundImage2} style={styles.group3Image} />
+          )}
+          <Text style={styles.otpText}>{text}</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    );
+  }
+
+  if (variant === "outline") {
+    return (
+      <TouchableOpacity onPress={() => router.navigate(navigateTo as any)}>
+        <View style={[styles.outlineButton, styles.sharedShadow]}>
+          <View style={styles.buttonContent}>
+            <Text style={styles.outlineText}>{text}</Text>
+            <Image source={arrowIcon} style={styles.arrowIcon} />
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
+  return null;
+}
+
+const styles = StyleSheet.create({
+  signinButton: {
+    borderRadius: 28,
+    height: 72,
+    width: "100%",
+    justifyContent: "center",
+    paddingHorizontal: 24,
+  },
+  gradientBorder: {
+    borderRadius: 28,
+    padding: 1,
+    backgroundColor: "transparent",
+  },
+  whiteInner: {
+    backgroundColor: "#fff",
+    borderRadius: 27,
+    height: 72,
+    justifyContent: "center",
+    paddingHorizontal: 24,
+  },
+  buttonContent: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+  },
+  signinText: {
+    color: "#fff",
+    fontWeight: "400",
+    fontSize: 20,
+  },
+  signupText: {
+    color: "#556BFF",
+    fontWeight: "400",
+    fontSize: 20,
+  },
+  arrowIcon: {
+    width: 21,
+    height: 17,
+    resizeMode: "contain",
+  },
+  sharedShadow: {
+    shadowColor: "#1B39FF",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.2,
+    shadowRadius: 16,
+    elevation: 8,
+  },
+  group1Image: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    width: 194,
+    height: 57,
+    zIndex: 1,
+  },
+  group2Image: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    width: 129,
+    height: 75,
+    zIndex: 1,
+  },
+  group3Image: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: 194,
+    height: 57,
+    zIndex: 1,
+  },
+  otpButton: {
+    borderRadius: 28,
+    height: 72,
+    width: "100%",
+    justifyContent: "center",
+    textAlign: "center",
+    alignItems: "center",
+  },
+  otpText: {
+    color: "#ffffff",
+    fontWeight: "400",
+    fontSize: 20,
+  },
+  outlineButton: {
+    borderRadius: 28,
+    borderWidth: 2,
+    borderColor: "#1433FF",
+    height: 72,
+    width: "100%",
+    justifyContent: "center",
+    paddingHorizontal: 24,
+    backgroundColor: "transparent",
+  },
+  outlineText: {
+    color: "#1433FF",
+    fontWeight: "400",
+    fontSize: 20,
+  },
+});
