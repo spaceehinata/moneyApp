@@ -11,12 +11,14 @@ import {
 } from "react-native";
 
 interface Props {
-  variant: "blue" | "white" | "otp" | "outline";
+  variant: "blue" | "white" | "otp" | "verify";
   text: string;
   arrowIcon?: ImageSourcePropType;
   backgroundImage?: ImageSourcePropType;
   backgroundImage2?: ImageSourcePropType;
   navigateTo: string;
+  disabled?: boolean;
+
 }
 
 export default function CustomButton({
@@ -26,6 +28,7 @@ export default function CustomButton({
   backgroundImage,
   backgroundImage2,
   navigateTo,
+  disabled,
 }: Props) {
   const router = useRouter();
 
@@ -94,18 +97,33 @@ export default function CustomButton({
     );
   }
 
-  if (variant === "outline") {
+
+  if (variant === "verify") {
     return (
-      <TouchableOpacity onPress={() => router.navigate(navigateTo as any)}>
-        <View style={[styles.outlineButton, styles.sharedShadow]}>
-          <View style={styles.buttonContent}>
-            <Text style={styles.outlineText}>{text}</Text>
-            <Image source={arrowIcon} style={styles.arrowIcon} />
-          </View>
-        </View>
-      </TouchableOpacity>
+      <TouchableOpacity
+  onPress={() => !disabled && router.navigate(navigateTo as any)}
+  activeOpacity={disabled ? 1 : 0.7}
+  style={{ opacity: disabled ? 0.5 : 1 }}
+>
+  <LinearGradient
+    colors={["#6075FF", "#1433FF"]}
+    start={{ x: 0, y: 0 }}
+    end={{ x: 1, y: 1 }}
+    style={[styles.verifyButton, styles.sharedShadow]}
+  >
+    {backgroundImage && (
+      <Image source={backgroundImage} style={styles.group1Image} />
+    )}
+    {backgroundImage2 && (
+      <Image source={backgroundImage2} style={styles.group3Image} />
+    )}
+    <Text style={styles.verifyText}>{text}</Text>
+  </LinearGradient>
+</TouchableOpacity>
+
     );
   }
+
 
   return null;
 }
@@ -195,18 +213,16 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 20,
   },
-  outlineButton: {
+  verifyButton: {
     borderRadius: 28,
-    borderWidth: 2,
-    borderColor: "#1433FF",
     height: 72,
     width: "100%",
     justifyContent: "center",
-    paddingHorizontal: 24,
-    backgroundColor: "transparent",
+    textAlign: "center",
+    alignItems: "center",
   },
-  outlineText: {
-    color: "#1433FF",
+  verifyText: {
+    color: "#ffffff",
     fontWeight: "400",
     fontSize: 20,
   },
