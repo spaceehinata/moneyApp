@@ -17,7 +17,7 @@ const DESIGN_WIDTH = 373;
 const DESIGN_HEIGHT = 298;
 const calculatedHeight = (DESIGN_HEIGHT / DESIGN_WIDTH) * screenWidth;
 
-export default function HomePage() {
+export default function SigninPage() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -31,12 +31,13 @@ export default function HomePage() {
       <View style={styles.div1}>
         <Text style={styles.header}>Sign In</Text>
 
-        <InputField
-          label="Email Address"
-          value={email}
-          onChangeText={setEmail}
-          showCheckmark={email.includes("@")}
+      <InputField
+        label="Email Address"
+        value={email}
+        onChangeText={setEmail}
+        showCheckmark={/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)}
         />
+
 
         <InputField
           label="Password"

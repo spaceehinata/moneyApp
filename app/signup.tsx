@@ -9,7 +9,7 @@ const DESIGN_WIDTH = 373;
 const DESIGN_HEIGHT = 298;
 const calculatedHeight = (DESIGN_HEIGHT / DESIGN_WIDTH) * screenWidth;
 
-export default function HomePage() {
+export default function SignupPage() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 

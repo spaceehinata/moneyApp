@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import {
-    Dimensions,
-    Image,
-    Keyboard,
-    KeyboardAvoidingView,
-    Platform,
-    StyleSheet,
-    Text,
-    TouchableWithoutFeedback,
-    View,
+  Dimensions,
+  Image,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
 import CustomButton from "../components/Button";
 import OtpInput from "../components/OtpInput";
 
 const { width: screenWidth } = Dimensions.get("window");
 
-export default function HomePage() {
+export default function VerifyPage() {
   const [otpCode, setOtpCode] = useState(["", "", "", ""]);
 
   const handleOtpChange = (code: string[]) => {

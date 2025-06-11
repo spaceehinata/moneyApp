@@ -21,6 +21,13 @@ export default function ProfilePage() {
   const [lastName, setLastName] = useState("");
   const [dob, setDob] = useState("");
 
+  // ✅ ახლა სწორად დეფინდება, კომპონენტის შიგნით
+  const allFilled =
+    username.trim() !== "" &&
+    firstName.trim() !== "" &&
+    lastName.trim() !== "" &&
+    dob.trim() !== "";
+
   return (
     <LinearGradient
       colors={["#4950F9", "#1937FE"]}
@@ -32,10 +39,11 @@ export default function ProfilePage() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
-              <Image
-                style={styles.image}
-                source={require("../assets/images/image.png")}
-              />
+        <Image
+          style={styles.image}
+          source={require("../assets/images/image.png")}
+        />
+
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView
             contentContainerStyle={styles.main}
@@ -48,7 +56,9 @@ export default function ProfilePage() {
               value={username}
               onChangeText={setUsername}
               variant="white"
+              showCheckmark={username.trim() !== ""}
             />
+
             <InputField
               label="First Name"
               placeholder="Your name"
@@ -56,7 +66,9 @@ export default function ProfilePage() {
               value={firstName}
               onChangeText={setFirstName}
               variant="white"
+              showCheckmark={firstName.trim() !== ""}
             />
+
             <InputField
               label="Last Name"
               placeholder="Your last name"
@@ -64,7 +76,9 @@ export default function ProfilePage() {
               value={lastName}
               onChangeText={setLastName}
               variant="white"
+              showCheckmark={lastName.trim() !== ""}
             />
+
             <InputField
               label="Date of Birth"
               placeholder="Your birthday (dd-mm-yyyy)"
@@ -72,22 +86,25 @@ export default function ProfilePage() {
               value={dob}
               onChangeText={setDob}
               variant="white"
+              showCheckmark={dob.trim() !== ""}
             />
+
             <CustomButton
-            variant="white"
-            text="Complete"
-            arrowIcon={require("../assets/images/arrow2.png")}
-          navigateTo="./profile"
-          />
+              variant="complete"
+              text="Complete"
+              arrowIcon={require("../assets/images/arrow2.png")}
+              navigateTo="./homepage"
+              active={allFilled}
+            />
           </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </LinearGradient>
   );
 }
+
 const styles = StyleSheet.create({
   gradient: {
-    // flex: 1,
     width: screenWidth,
     height: screenHeight,
   },
@@ -101,7 +118,6 @@ const styles = StyleSheet.create({
     width: 143,
     height: 143,
     alignSelf: "center",
-    marginTop:84,
-    // marginBottom:40,
+    marginTop: 84,
   },
 });

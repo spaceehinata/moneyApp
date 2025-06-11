@@ -11,13 +11,14 @@ import {
 } from "react-native";
 
 interface Props {
-  variant: "blue" | "white" | "otp" | "verify";
+  variant: "blue" | "white" | "otp" | "verify" | "complete" | "bank";
   text: string;
   arrowIcon?: ImageSourcePropType;
   backgroundImage?: ImageSourcePropType;
   backgroundImage2?: ImageSourcePropType;
   navigateTo: string;
   disabled?: boolean;
+  active?: boolean;
 
 }
 
@@ -29,6 +30,7 @@ export default function CustomButton({
   backgroundImage2,
   navigateTo,
   disabled,
+  active,
 }: Props) {
   const router = useRouter();
 
@@ -124,6 +126,48 @@ export default function CustomButton({
     );
   }
 
+if (variant === "complete") {
+  const activeColor = active ? "#2743FD" : "#C8C8C8";
+
+  return (
+    <TouchableOpacity
+      onPress={() => router.navigate(navigateTo as any)}
+      disabled={!active}
+    >
+      <View style={styles.completeButton}>
+        <View style={styles.combuttonContent}>
+          <Text style={[styles.completeText, { color: activeColor }]}>{text}</Text>
+          <Image
+            source={require("../assets/images/check.png")}
+            style={[styles.checkIcon, { tintColor: activeColor }]}
+          />
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+}
+  if (variant === "bank") {
+    return (
+      <TouchableOpacity
+  onPress={() => !disabled && router.navigate(navigateTo as any)}
+  activeOpacity={disabled ? 1 : 0.7}
+  style={{ opacity: disabled ? 0.5 : 1 }}
+>
+  <LinearGradient
+    colors={["#6075FF", "#1433FF"]}
+    start={{ x: 0, y: 0 }}
+    end={{ x: 1, y: 1 }}
+    style={[styles.bankButton, styles.sharedShadow]}
+  >
+    {backgroundImage && (
+      <Image source={backgroundImage} style={styles.group4Image} />
+    )}
+    <Text style={styles.verifyText}>{text}</Text>
+  </LinearGradient>
+</TouchableOpacity>
+
+    );
+  }
 
   return null;
 }
@@ -226,4 +270,46 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 20,
   },
+  completeButton: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 28,
+    paddingHorizontal: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 72,
+    width: "100%",
+  },
+  completeText: {
+    color: "#C8C8C8",
+    fontSize: 20,
+    fontWeight: "400",
+    marginRight: 10,
+  },
+  checkIcon: {
+    width: 18,
+    height: 13,
+    resizeMode: "contain",
+  },
+    combuttonContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+    bankButton: {
+    borderRadius: 40,
+    height: 125,  
+    width: "100%",
+    justifyContent: "center",
+    textAlign: "center",
+    alignItems: "center",
+    paddingHorizontal: 32,
+  },
+  group4Image:{
+    position: "absolute",
+    top: 0,
+    right: 0,
+    width: 139,
+    height: 125,
+    zIndex: 1,
+  }
 });

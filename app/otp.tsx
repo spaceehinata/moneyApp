@@ -15,7 +15,7 @@ import CustomButton from "../components/Button";
 
 const { width: screenWidth } = Dimensions.get("window");
 
-export default function HomePage() {
+export default function OtpPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
 
   return (
