@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Dimensions,
-  Image,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 import CustomButton from "../components/Button";
 
 const { width: screenWidth } = Dimensions.get("window");
@@ -50,12 +44,14 @@ export default function HomePage() {
           resizeMode="contain"
         />
       </View>
-       <CustomButton
-         variant="bank"
+      <View style={styles.pad}>
+        <CustomButton
+          variant="bank"
           text="Check Your Bank Accounts"
           backgroundImage={require("../assets/images/bank.png")}
-           navigateTo="./verification"
+          navigateTo="./verification"
         />
+      </View>
     </View>
   );
 }
@@ -64,7 +60,6 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     width: screenWidth,
-    paddingHorizontal:32,
   },
   image: {
     width: screenWidth,
@@ -116,7 +111,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 50,
     elevation: 10,
-    marginBottom:30,
+    marginBottom: 30,
   },
   balanceHeader: {
     flexDirection: "row",
@@ -126,13 +121,13 @@ const styles = StyleSheet.create({
   },
   balanceLabel: {
     fontSize: 16,
-    fontWeight: "400", 
+    fontWeight: "400",
     color: "#000000",
   },
   dots: {
-    textAlign:"center",
-    alignItems:"center",
-    justifyContent:"center",
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
     fontSize: 30,
     fontWeight: "400",
     color: "#000000",
@@ -148,5 +143,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 166,
     marginTop: 26,
+  },
+  pad: {
+    paddingHorizontal: 32,
   },
 });

@@ -10,7 +10,7 @@ import {
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
-  View
+  View,
 } from "react-native";
 import CustomButton from "../components/Button";
 import InputField from "../components/InputField";
@@ -58,11 +58,11 @@ export default function SignupPage() {
             />
 
             <CustomButton
-              variant="white"
+              variant="blue"
               text="Sign Up"
-              arrowIcon={require("../assets/images/arrow2.png")}
-              backgroundImage={require("../assets/images/Group2.png")}
-              navigateTo="./profile"
+              arrowIcon={require("../assets/images/arrow.png")}
+              backgroundImage={require("../assets/images/Group1.png")}
+              navigateTo="./homepage"
             />
           </View>
 

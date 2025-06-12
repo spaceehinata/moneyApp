@@ -4,14 +4,23 @@ import React from "react";
 import {
   Image,
   ImageSourcePropType,
+  StyleProp,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  ViewStyle,
 } from "react-native";
 
 interface Props {
-  variant: "blue" | "white" | "otp" | "verify" | "complete" | "bank";
+  variant:
+    | "blue"
+    | "white"
+    | "otp"
+    | "verify"
+    | "complete"
+    | "bank"
+    | "smallblue";
   text: string;
   arrowIcon?: ImageSourcePropType;
   backgroundImage?: ImageSourcePropType;
@@ -19,7 +28,9 @@ interface Props {
   navigateTo: string;
   disabled?: boolean;
   active?: boolean;
-
+  smallImage?: ImageSourcePropType;
+  style?: StyleProp<ViewStyle>;
+  onNavigate?: () => boolean;
 }
 
 export default function CustomButton({
@@ -31,12 +42,22 @@ export default function CustomButton({
   navigateTo,
   disabled,
   active,
+  smallImage,
+  style,
+  onNavigate,
 }: Props) {
   const router = useRouter();
 
   if (variant === "blue") {
     return (
-      <TouchableOpacity onPress={() => router.navigate(navigateTo as any)}>
+      <TouchableOpacity
+        style={style}
+        onPress={() => {
+          if (!onNavigate || onNavigate()) {
+            router.navigate(navigateTo as any);
+          }
+        }}
+      >
         <LinearGradient
           colors={["#6075FF", "#1433FF"]}
           start={{ x: 0, y: 0 }}
@@ -46,9 +67,32 @@ export default function CustomButton({
           {backgroundImage && (
             <Image source={backgroundImage} style={styles.group1Image} />
           )}
-          <View style={styles.buttonContent}>
-            <Text style={styles.signinText}>{text}</Text>
-            <Image source={arrowIcon} style={styles.arrowIcon} />
+          {smallImage && (
+            <Image
+              source={smallImage}
+              style={styles.smallImage}
+              resizeMode="contain"
+            />
+          )}
+
+          <View
+            style={[
+              styles.buttonContent,
+              { justifyContent: arrowIcon ? "space-between" : "center" },
+            ]}
+          >
+            <Text
+              style={[
+                styles.signinText,
+                {
+                  textAlign: arrowIcon ? "left" : "center",
+                  flex: arrowIcon ? 0 : 1,
+                },
+              ]}
+            >
+              {text}
+            </Text>
+            {arrowIcon && <Image source={arrowIcon} style={styles.arrowIcon} />}
           </View>
         </LinearGradient>
       </TouchableOpacity>
@@ -68,9 +112,23 @@ export default function CustomButton({
             <Image source={backgroundImage} style={styles.group2Image} />
           )}
           <View style={styles.whiteInner}>
-            <View style={styles.buttonContent}>
-              <Text style={styles.signupText}>{text}</Text>
-              <Image source={arrowIcon} style={styles.arrowIcon} />
+            <View
+              style={[
+                styles.buttonContent,
+                { justifyContent: arrowIcon ? "space-between" : "center" },
+              ]}
+            >
+              <Text
+                style={[
+                  styles.signupText,
+                  { textAlign: arrowIcon ? "left" : "center" },
+                ]}
+              >
+                {text}
+              </Text>
+              {arrowIcon && (
+                <Image source={arrowIcon} style={styles.arrowIcon} />
+              )}
             </View>
           </View>
         </LinearGradient>
@@ -99,76 +157,74 @@ export default function CustomButton({
     );
   }
 
-
   if (variant === "verify") {
     return (
       <TouchableOpacity
-  onPress={() => !disabled && router.navigate(navigateTo as any)}
-  activeOpacity={disabled ? 1 : 0.7}
-  style={{ opacity: disabled ? 0.5 : 1 }}
->
-  <LinearGradient
-    colors={["#6075FF", "#1433FF"]}
-    start={{ x: 0, y: 0 }}
-    end={{ x: 1, y: 1 }}
-    style={[styles.verifyButton, styles.sharedShadow]}
-  >
-    {backgroundImage && (
-      <Image source={backgroundImage} style={styles.group1Image} />
-    )}
-    {backgroundImage2 && (
-      <Image source={backgroundImage2} style={styles.group3Image} />
-    )}
-    <Text style={styles.verifyText}>{text}</Text>
-  </LinearGradient>
-</TouchableOpacity>
-
+        onPress={() => !disabled && router.navigate(navigateTo as any)}
+        activeOpacity={disabled ? 1 : 0.7}
+        style={{ opacity: disabled ? 0.5 : 1 }}
+      >
+        <LinearGradient
+          colors={["#6075FF", "#1433FF"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={[styles.verifyButton, styles.sharedShadow]}
+        >
+          {backgroundImage && (
+            <Image source={backgroundImage} style={styles.group1Image} />
+          )}
+          {backgroundImage2 && (
+            <Image source={backgroundImage2} style={styles.group3Image} />
+          )}
+          <Text style={styles.verifyText}>{text}</Text>
+        </LinearGradient>
+      </TouchableOpacity>
     );
   }
 
-if (variant === "complete") {
-  const activeColor = active ? "#2743FD" : "#C8C8C8";
+  if (variant === "complete") {
+    const activeColor = active ? "#2743FD" : "#C8C8C8";
 
-  return (
-    <TouchableOpacity
-      onPress={() => router.navigate(navigateTo as any)}
-      disabled={!active}
-    >
-      <View style={styles.completeButton}>
-        <View style={styles.combuttonContent}>
-          <Text style={[styles.completeText, { color: activeColor }]}>{text}</Text>
-          <Image
-            source={require("../assets/images/check.png")}
-            style={[styles.checkIcon, { tintColor: activeColor }]}
-          />
+    return (
+      <TouchableOpacity
+        onPress={() => router.navigate(navigateTo as any)}
+        disabled={!active}
+      >
+        <View style={styles.completeButton}>
+          <View style={styles.combuttonContent}>
+            <Text style={[styles.completeText, { color: activeColor }]}>
+              {text}
+            </Text>
+            <Image
+              source={require("../assets/images/check.png")}
+              style={[styles.checkIcon, { tintColor: activeColor }]}
+            />
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
-}
+      </TouchableOpacity>
+    );
+  }
   if (variant === "bank") {
     return (
       <TouchableOpacity
-  onPress={() => !disabled && router.navigate(navigateTo as any)}
-  activeOpacity={disabled ? 1 : 0.7}
-  style={{ opacity: disabled ? 0.5 : 1 }}
->
-  <LinearGradient
-    colors={["#6075FF", "#1433FF"]}
-    start={{ x: 0, y: 0 }}
-    end={{ x: 1, y: 1 }}
-    style={[styles.bankButton, styles.sharedShadow]}
-  >
-    {backgroundImage && (
-      <Image source={backgroundImage} style={styles.group4Image} />
-    )}
-    <Text style={styles.verifyText}>{text}</Text>
-  </LinearGradient>
-</TouchableOpacity>
-
+        onPress={() => !disabled && router.navigate(navigateTo as any)}
+        activeOpacity={disabled ? 1 : 0.7}
+        style={{ opacity: disabled ? 0.5 : 1 }}
+      >
+        <LinearGradient
+          colors={["#6075FF", "#1433FF"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={[styles.bankButton, styles.sharedShadow]}
+        >
+          {backgroundImage && (
+            <Image source={backgroundImage} style={styles.group4Image} />
+          )}
+          <Text style={styles.verifyText}>{text}</Text>
+        </LinearGradient>
+      </TouchableOpacity>
     );
   }
-
   return null;
 }
 
@@ -179,6 +235,15 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     paddingHorizontal: 24,
+  },
+  signinText: {
+    color: "#fff",
+    fontWeight: "400",
+    fontSize: 20,
+    textAlign: "center",
+  },
+  centerContent: {
+    justifyContent: "center",
   },
   gradientBorder: {
     borderRadius: 28,
@@ -194,14 +259,10 @@ const styles = StyleSheet.create({
   },
   buttonContent: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-  },
-  signinText: {
-    color: "#fff",
-    fontWeight: "400",
-    fontSize: 20,
+    paddingRight: 0,
+    justifyContent: "space-between",
   },
   signupText: {
     color: "#556BFF",
@@ -224,6 +285,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     right: 0,
+    width: 194,
+    height: 57,
+    zIndex: 1,
+  },
+  smallImage: {
+    position: "absolute",
+    top: 0,
+    right: -55,
     width: 194,
     height: 57,
     zIndex: 1,
@@ -290,26 +359,26 @@ const styles = StyleSheet.create({
     height: 13,
     resizeMode: "contain",
   },
-    combuttonContent: {
+  combuttonContent: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
   },
-    bankButton: {
+  bankButton: {
     borderRadius: 40,
-    height: 125,  
+    height: 125,
     width: "100%",
     justifyContent: "center",
     textAlign: "center",
     alignItems: "center",
     paddingHorizontal: 32,
   },
-  group4Image:{
+  group4Image: {
     position: "absolute",
     top: 0,
     right: 0,
     width: 139,
     height: 125,
     zIndex: 1,
-  }
+  },
 });

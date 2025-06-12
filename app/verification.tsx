@@ -21,7 +21,7 @@ export default function VerifyPage() {
   const handleOtpChange = (code: string[]) => {
     setOtpCode(code);
     if (code.every((digit) => digit !== "")) {
-      Keyboard.dismiss(); // dismiss when code is fully entered
+      Keyboard.dismiss();
     }
   };
 
@@ -39,7 +39,7 @@ export default function VerifyPage() {
             style={styles.image}
             resizeMode="contain"
           />
-        <Text style={styles.title}>OTP Verification</Text>
+          <Text style={styles.title}>OTP Verification</Text>
 
           <Text style={styles.label}>Enter the OTP sent to</Text>
 
@@ -56,7 +56,7 @@ export default function VerifyPage() {
             disabled={!isOtpComplete}
             backgroundImage={require("../assets/images/Group1.png")}
             backgroundImage2={require("../assets/images/Group3.png")}
-            navigateTo="./profile"
+            navigateTo="./homepage"
           />
         </View>
       </TouchableWithoutFeedback>
