@@ -3,9 +3,14 @@ import React from "react";
 import {
   Dimensions,
   Image,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import CustomButton from "../components/Button";
@@ -22,47 +27,60 @@ export default function SigninPage() {
   const [password, setPassword] = React.useState("");
 
   return (
-    <View style={styles.main}>
-      <Image
-        style={styles.image}
-        source={require("../assets/images/welcome2.png")}
-      />
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView
+          contentContainerStyle={styles.container}
+          keyboardShouldPersistTaps="handled"
+        >
+          <Image
+            style={styles.image}
+            source={require("../assets/images/welcome2.png")}
+          />
 
-      <View style={styles.div1}>
-        <Text style={styles.header}>Sign In</Text>
+          <View style={styles.div1}>
+            <Text style={styles.header}>Sign In</Text>
 
-      <InputField
-        label="Email Address"
-        value={email}
-        onChangeText={setEmail}
-        showCheckmark={/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)}
-        />
+            <InputField
+              label="Email Address"
+              value={email}
+              onChangeText={setEmail}
+              showCheckmark={/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)}
+            />
 
+            <InputField
+              label="Password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+            />
 
-        <InputField
-          label="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
+            <Pressable onPress={() => router.push("/otp")}>
+              <Text style={styles.forgot}>Forgot Password?</Text>
+            </Pressable>
 
-        <Pressable onPress={() => router.push("/otp")}>
-          <Text style={styles.forgot}>Forgot Password?</Text>
-        </Pressable>
-
-        <CustomButton
-          variant="blue"
-          text="Sign In"
-          arrowIcon={require("../assets/images/arrow.png")}
-          backgroundImage={require("../assets/images/Group1.png")}
-          navigateTo="./otp"
-        />
-      </View>
-    </View>
+            <CustomButton
+              variant="blue"
+              text="Sign In"
+              arrowIcon={require("../assets/images/arrow.png")}
+              backgroundImage={require("../assets/images/Group1.png")}
+              navigateTo="./otp"
+            />
+          </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
-
 const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    justifyContent: "flex-start",
+    paddingBottom: 20,
+  },
   main: {
     flex: 1,
     width: screenWidth,

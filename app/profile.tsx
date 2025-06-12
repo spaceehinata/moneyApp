@@ -21,7 +21,6 @@ export default function ProfilePage() {
   const [lastName, setLastName] = useState("");
   const [dob, setDob] = useState("");
 
-  // ✅ ახლა სწორად დეფინდება, კომპონენტის შიგნით
   const allFilled =
     username.trim() !== "" &&
     firstName.trim() !== "" &&

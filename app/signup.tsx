@@ -1,5 +1,17 @@
+import ProfileTabs from "@/navigation/ProfileTabs";
 import React from "react";
-import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  Image,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View
+} from "react-native";
 import CustomButton from "../components/Button";
 import InputField from "../components/InputField";
 
@@ -14,51 +26,64 @@ export default function SignupPage() {
   const [password, setPassword] = React.useState("");
 
   return (
-    <View style={styles.main}>
-      <Image
-        style={styles.image}
-        source={require("../assets/images/welcome2.png")}
-      />
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView
+          contentContainerStyle={styles.container}
+          keyboardShouldPersistTaps="handled"
+        >
+          <Image
+            style={styles.image}
+            source={require("../assets/images/welcome2.png")}
+          />
 
-      <View style={styles.div1}>
-        <Text style={styles.header}>Sign Up</Text>
+          <View style={styles.div1}>
+            <Text style={styles.header}>Sign Up</Text>
 
-        <InputField
-          label="Email Address"
-          value={email}
-          onChangeText={setEmail}
-          showCheckmark={email.includes("@")}
-        />
+            <InputField
+              label="Email Address"
+              value={email}
+              onChangeText={setEmail}
+              showCheckmark={email.includes("@")}
+            />
 
-        <InputField
-          label="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-        <CustomButton
-          variant="white"
-          text="Sign Up"
-          arrowIcon={require("../assets/images/arrow2.png")}
-          backgroundImage={require("../assets/images/Group2.png")}
-          navigateTo="./profile"
-        />
-      </View>
-    </View>
+            <InputField
+              label="Password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+            />
+
+            <CustomButton
+              variant="white"
+              text="Sign Up"
+              arrowIcon={require("../assets/images/arrow2.png")}
+              backgroundImage={require("../assets/images/Group2.png")}
+              navigateTo="./profile"
+            />
+          </View>
+
+          <View style={{ flex: 1, justifyContent: "flex-end" }}>
+            <ProfileTabs />
+          </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
-
 const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-    width: screenWidth,
+  container: {
+    flexGrow: 1,
     flexDirection: "column",
+    justifyContent: "flex-start",
+    paddingBottom: 20,
   },
   image: {
     width: screenWidth,
     height: calculatedHeight,
-    left: -20,
-    position: "relative",
     resizeMode: "cover",
   },
   div1: {
