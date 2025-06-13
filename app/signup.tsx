@@ -1,20 +1,22 @@
-import ProfileTabs from "@/navigation/ProfileTabs";
+// import ProfileTabs from "@/app/(tabs)/ProfileTabs";
+import CustomButton from "@/components/Button";
+import InputField from "@/components/InputField";
 import React from "react";
 import {
+  Animated,
   Dimensions,
+  Easing,
   Image,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import CustomButton from "../components/Button";
-import InputField from "../components/InputField";
 
+const AnimatedView = Animated.createAnimatedComponent(View);
 const { width: screenWidth } = Dimensions.get("window");
 
 const DESIGN_WIDTH = 373;
@@ -24,6 +26,41 @@ const calculatedHeight = (DESIGN_HEIGHT / DESIGN_WIDTH) * screenWidth;
 export default function SignupPage() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const translateY = React.useRef(new Animated.Value(0)).current;
+
+  React.useEffect(() => {
+    const keyboardWillShow = () => {
+      Animated.timing(translateY, {
+        toValue: -200,
+        duration: 250,
+        useNativeDriver: true,
+        easing: Easing.ease,
+      }).start();
+    };
+
+    const keyboardWillHide = () => {
+      Animated.timing(translateY, {
+        toValue: 0,
+        duration: 250,
+        useNativeDriver: true,
+        easing: Easing.ease,
+      }).start();
+    };
+
+    const showSubscription = Keyboard.addListener(
+      "keyboardWillShow",
+      keyboardWillShow
+    );
+    const hideSubscription = Keyboard.addListener(
+      "keyboardWillHide",
+      keyboardWillHide
+    );
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, [translateY]);
 
   return (
     <KeyboardAvoidingView
@@ -31,9 +68,8 @@ export default function SignupPage() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView
-          contentContainerStyle={styles.container}
-          keyboardShouldPersistTaps="handled"
+        <AnimatedView
+          style={[styles.container, { transform: [{ translateY }] }]}
         >
           <Image
             style={styles.image}
@@ -67,19 +103,18 @@ export default function SignupPage() {
           </View>
 
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            <ProfileTabs />
+            {/* <ProfileTabs /> */}
           </View>
-        </ScrollView>
+        </AnimatedView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
     flexDirection: "column",
     justifyContent: "flex-start",
-    paddingBottom: 20,
   },
   image: {
     width: screenWidth,

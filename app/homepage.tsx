@@ -47,7 +47,7 @@ export default function HomePage() {
       <View style={styles.pad}>
         <CustomButton
           variant="bank"
-          text="Check Your Bank Accounts"
+          text={`Check Your Bank\nAccounts`}
           backgroundImage={require("../assets/images/bank.png")}
           navigateTo="./verification"
         />

@@ -17,6 +17,26 @@ const { width: screenWidth } = Dimensions.get("window");
 
 export default function VerifyPage() {
   const [otpCode, setOtpCode] = useState(["", "", "", ""]);
+  const [isInputFocused, setIsInputFocused] = React.useState(false);
+
+  React.useEffect(() => {
+    const keyboardWillShow = () => setIsInputFocused(true);
+    const keyboardWillHide = () => setIsInputFocused(false);
+
+    const showSubscription = Keyboard.addListener(
+      "keyboardWillShow",
+      keyboardWillShow
+    );
+    const hideSubscription = Keyboard.addListener(
+      "keyboardWillHide",
+      keyboardWillHide
+    );
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   const handleOtpChange = (code: string[]) => {
     setOtpCode(code);
@@ -29,11 +49,16 @@ export default function VerifyPage() {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
       style={{ flex: 1 }}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.main}>
+        <View
+          style={[
+            styles.main,
+            { transform: [{ translateY: isInputFocused ? -200 : 0 }] },
+          ]}
+        >
           <Image
             source={require("../assets/images/otp.png")}
             style={styles.image}

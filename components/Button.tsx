@@ -220,7 +220,7 @@ export default function CustomButton({
           {backgroundImage && (
             <Image source={backgroundImage} style={styles.group4Image} />
           )}
-          <Text style={styles.verifyText}>{text}</Text>
+          <Text style={styles.banktext}>{text}</Text>
         </LinearGradient>
       </TouchableOpacity>
     );
@@ -339,6 +339,14 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 20,
   },
+  banktext: {
+    color: "#ffffff",
+    fontWeight: "400",
+    fontSize: 20,
+    textAlign: "left",
+    flexWrap: "wrap",
+  },
+
   completeButton: {
     backgroundColor: "#FFFFFF",
     borderRadius: 28,
@@ -370,7 +378,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     textAlign: "center",
-    alignItems: "center",
+    alignItems: "flex-start",
     paddingHorizontal: 32,
   },
   group4Image: {

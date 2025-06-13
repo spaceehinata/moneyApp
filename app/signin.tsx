@@ -7,7 +7,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
@@ -25,17 +24,38 @@ const calculatedHeight = (DESIGN_HEIGHT / DESIGN_WIDTH) * screenWidth;
 export default function SigninPage() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [isInputFocused, setIsInputFocused] = React.useState(false);
+
+  React.useEffect(() => {
+    const keyboardWillShow = () => setIsInputFocused(true);
+    const keyboardWillHide = () => setIsInputFocused(false);
+
+    const showSubscription = Keyboard.addListener(
+      "keyboardWillShow",
+      keyboardWillShow
+    );
+    const hideSubscription = Keyboard.addListener(
+      "keyboardWillHide",
+      keyboardWillHide
+    );
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
+  const shiftStyle = {
+    transform: [{ translateY: isInputFocused ? -200 : 0 }],
+  };
 
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView
-          contentContainerStyle={styles.container}
-          keyboardShouldPersistTaps="handled"
-        >
+        <View style={[styles.container, shiftStyle]}>
           <Image
             style={styles.image}
             source={require("../assets/images/welcome2.png")}
@@ -70,7 +90,7 @@ export default function SigninPage() {
               navigateTo="./otp"
             />
           </View>
-        </ScrollView>
+        </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );

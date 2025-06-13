@@ -1,4 +1,4 @@
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
 import {
   Dimensions,
@@ -6,9 +6,9 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
   StyleSheet,
   TouchableWithoutFeedback,
+  View,
 } from "react-native";
 import CustomButton from "../components/Button";
 import InputField from "../components/InputField";
@@ -20,6 +20,26 @@ export default function ProfilePage() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [dob, setDob] = useState("");
+  const [isInputFocused, setIsInputFocused] = React.useState(false);
+
+  React.useEffect(() => {
+    const keyboardWillShow = () => setIsInputFocused(true);
+    const keyboardWillHide = () => setIsInputFocused(false);
+
+    const showSubscription = Keyboard.addListener(
+      "keyboardWillShow",
+      keyboardWillShow
+    );
+    const hideSubscription = Keyboard.addListener(
+      "keyboardWillHide",
+      keyboardWillHide
+    );
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   const allFilled =
     username.trim() !== "" &&
@@ -35,7 +55,7 @@ export default function ProfilePage() {
       style={styles.gradient}
     >
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={{ flex: 1 }}
       >
         <Image
@@ -44,9 +64,11 @@ export default function ProfilePage() {
         />
 
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView
-            contentContainerStyle={styles.main}
-            keyboardShouldPersistTaps="handled"
+          <View
+            style={[
+              styles.main,
+              { transform: [{ translateY: isInputFocused ? -200 : 0 }] },
+            ]}
           >
             <InputField
               label="Username"
@@ -95,7 +117,7 @@ export default function ProfilePage() {
               navigateTo="./homepage"
               active={allFilled}
             />
-          </ScrollView>
+          </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </LinearGradient>
