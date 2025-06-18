@@ -98,7 +98,7 @@ export default function SignupPage() {
               text="Sign Up"
               arrowIcon={require("../assets/images/arrow.png")}
               backgroundImage={require("../assets/images/Group1.png")}
-              navigateTo="./homepage"
+              navigateTo="./profile"
             />
           </View>
 

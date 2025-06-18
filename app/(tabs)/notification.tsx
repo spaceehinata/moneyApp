@@ -1,6 +1,6 @@
 import React from "react";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
-import CustomButton from "../components/Button";
+import CustomButton from "../../components/Button";
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -13,16 +13,16 @@ export default function HomePage() {
     <View style={styles.main}>
       <Image
         style={styles.image}
-        source={require("../assets/images/Rectangle 3.png")}
+        source={require("../../assets/images/Rectangle 3.png")}
       />
       <View style={styles.topBar}>
         <Image
           style={styles.menuIcon}
-          source={require("../assets/images/menuu.png")}
+          source={require("../../assets/images/menuu.png")}
         />
         <Image
           style={styles.pfp}
-          source={require("../assets/images/prof pic.png")}
+          source={require("../../assets/images/prof pic.png")}
         />
       </View>
 
@@ -40,7 +40,7 @@ export default function HomePage() {
 
         <Image
           style={styles.columnsImage}
-          source={require("../assets/images/Columns.png")}
+          source={require("../../assets/images/Columns.png")}
           resizeMode="contain"
         />
       </View>
@@ -48,10 +48,11 @@ export default function HomePage() {
         <CustomButton
           variant="bank"
           text={`Check Your Bank\nAccounts`}
-          backgroundImage={require("../assets/images/bank.png")}
-          navigateTo="./verification"
+          backgroundImage={require("../../assets/images/bank.png")}
+          navigateTo="./"
         />
       </View>
+      
     </View>
   );
 }

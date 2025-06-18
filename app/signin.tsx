@@ -78,16 +78,16 @@ export default function SigninPage() {
               secureTextEntry
             />
 
-            <Pressable onPress={() => router.push("/otp")}>
-              <Text style={styles.forgot}>Forgot Password?</Text>
-            </Pressable>
+          <Pressable onPress={() => router.push("/otp")}>
+            <Text style={styles.forgot}>Forgot Password?</Text>
+          </Pressable>
 
             <CustomButton
               variant="blue"
               text="Sign In"
               arrowIcon={require("../assets/images/arrow.png")}
               backgroundImage={require("../assets/images/Group1.png")}
-              navigateTo="./otp"
+              navigateTo="app/(tabs)/index.tsx"
             />
           </View>
         </View>

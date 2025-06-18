@@ -81,7 +81,7 @@ export default function VerifyPage() {
             disabled={!isOtpComplete}
             backgroundImage={require("../assets/images/Group1.png")}
             backgroundImage2={require("../assets/images/Group3.png")}
-            navigateTo="./homepage"
+            navigateTo="./welcome"
           />
         </View>
       </TouchableWithoutFeedback>
