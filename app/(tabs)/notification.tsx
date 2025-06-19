@@ -1,151 +1,170 @@
-import React from "react";
-import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
-import CustomButton from "../../components/Button";
+import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import {
+  FlatList,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
-const { width: screenWidth } = Dimensions.get("window");
-
-const DESIGN_WIDTH = 393;
-const DESIGN_HEIGHT = 278;
-const calculatedHeight = (DESIGN_HEIGHT / DESIGN_WIDTH) * screenWidth;
-
-export default function HomePage() {
-  return (
-    <View style={styles.main}>
-      <Image
-        style={styles.image}
-        source={require("../../assets/images/Rectangle 3.png")}
-      />
-      <View style={styles.topBar}>
-        <Image
-          style={styles.menuIcon}
-          source={require("../../assets/images/menuu.png")}
-        />
-        <Image
-          style={styles.pfp}
-          source={require("../../assets/images/prof pic.png")}
-        />
-      </View>
-
-      <View style={styles.textContainer}>
-        <Text style={styles.text1}>Good morning</Text>
-        <Text style={styles.text2}>Emma,</Text>
-      </View>
-
-      <View style={styles.borderedBox}>
-        <View style={styles.balanceHeader}>
-          <Text style={styles.balanceLabel}>Your total balance</Text>
-          <Text style={styles.dots}>...</Text>
-        </View>
-        <Text style={styles.balanceAmount}>$850.00</Text>
-
-        <Image
-          style={styles.columnsImage}
-          source={require("../../assets/images/Columns.png")}
-          resizeMode="contain"
-        />
-      </View>
-      <View style={styles.pad}>
-        <CustomButton
-          variant="bank"
-          text={`Check Your Bank\nAccounts`}
-          backgroundImage={require("../../assets/images/bank.png")}
-          navigateTo="./"
-        />
-      </View>
-      
-    </View>
-  );
+interface NotificationItem {
+  id: string;
+  name: string;
+  message: string;
+  avatar: any;
 }
 
+const notifications: NotificationItem[] = [
+  {
+    id: '1',
+    name: 'Georgo Armani',
+    message: 'Georgo Just sent you $15.',
+    avatar: require('../../assets/images/tobi.png'),
+  },
+  {
+    id: '2',
+    name: 'Pedro Gonzales',
+    message: 'Pedro sent you $14,445.',
+    avatar: require('../../assets/images/tobi.png'),
+  },
+  {
+    id: '3',
+    name: 'Nuked Nuke',
+    message: 'Nuke sent you $45.',
+    avatar: require('../../assets/images/tobi.png'),
+  },
+  {
+    id: '4',
+    name: 'Nini Gordon',
+    message: 'Gordon sent you $1325.',
+    avatar: require('../../assets/images/tobi.png'),
+  },
+  {
+    id: '5',
+    name: 'Chyaber Gonzales',
+    message: 'Chyaber sent you $125.',
+    avatar: require('../../assets/images/tobi.png'),
+  },
+  {
+    id: '6',
+    name: 'Your Dog',
+    message: 'Dog sent you $10.',
+    avatar: require('../../assets/images/tobi.png'),
+  },
+];
+
+const NotificationScreen = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredNotifications = notifications.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.message.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const renderItem = ({ item }: { item: NotificationItem }) => (
+    <Pressable style={styles.itemContainer}>
+      <Image source={item.avatar} style={styles.avatar} />
+      <View style={styles.textContainer}>
+        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.message}>{item.message}</Text>
+      </View>
+      <Ionicons name="chevron-forward" size={18} color="#3D56FA" />
+    </Pressable>
+  );
+
+  return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      style={styles.container}
+    >
+      <View style={styles.searchBar}>
+        <Ionicons name="search" size={22} color="#3D56FA" style={styles.searchIcon} />
+        <TextInput
+          placeholder="Search"
+          placeholderTextColor="#3D56FA"
+          style={styles.searchInput}
+          value={searchQuery}
+          onChangeText={(text) => setSearchQuery(text)}
+        />
+      </View>
+      <Text style={styles.headerText}>You can check your{"\n"}notifications here.</Text>
+      <FlatList
+        data={filteredNotifications}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.list}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      />
+    </KeyboardAvoidingView>
+  );
+};
+
+export default NotificationScreen;
+
 const styles = StyleSheet.create({
-  main: {
+  container: {
     flex: 1,
-    width: screenWidth,
+    backgroundColor: '#fff',
+    paddingHorizontal:30,
+    paddingTop: 40,
   },
-  image: {
-    width: screenWidth,
-    height: calculatedHeight,
-    resizeMode: "cover",
+  searchBar: {
+    flexDirection: 'row',
+    backgroundColor: '#F5F6FA',
+    borderRadius: 10,
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    height: 45,
+    marginTop:40,
   },
-  topBar: {
-    position: "absolute",
-    top: 71,
-    left: 30,
-    right: 30,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+  searchIcon: {
+    marginRight: 10,
   },
-  menuIcon: {
-    width: 30,
-    height: 29,
+  searchInput: {
+    flex: 1,
+    color: '#3D56FA',
+    fontSize: 16,
   },
-  pfp: {
-    width: 50,
-    height: 50,
+  headerText: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#3A3A3A',
+    marginVertical:40,
+  },
+  list: {
+    // paddingBottom: 40,
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 20,
+    borderBottomColor: '#DEE1EF',
+    borderBottomWidth: 1,
+  },
+  avatar: {
+    width: 45,
+    height: 45,
+    borderRadius: 22,
+    marginRight: 10.77,
   },
   textContainer: {
-    position: "absolute",
-    top: 120,
-    left: 50,
+    flex: 1,
   },
-  text1: {
-    fontSize: 32,
-    fontWeight: "400",
-    color: "#ffffff",
-  },
-  text2: {
-    fontSize: 32,
-    fontWeight: "400",
-    color: "#ffffff",
-  },
-  borderedBox: {
-    width: 315,
-    height: 321,
-    backgroundColor: "#ffffff",
-    borderRadius: 40,
-    paddingHorizontal: 32,
-    alignSelf: "center",
-    marginTop: -40,
-    shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 9 },
-    shadowOpacity: 0.1,
-    shadowRadius: 50,
-    elevation: 10,
-    marginBottom: 30,
-  },
-  balanceHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 32,
-  },
-  balanceLabel: {
+  name: {
+    fontWeight: '400',
     fontSize: 16,
-    fontWeight: "400",
-    color: "#000000",
+    color: '#000',
   },
-  dots: {
-    textAlign: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: 30,
-    fontWeight: "400",
-    color: "#000000",
-    // marginTop:-20,
-  },
-  balanceAmount: {
-    fontSize: 30,
-    fontWeight: "700",
-    color: "#2D99FF",
-    marginTop: 8,
-  },
-  columnsImage: {
-    width: "100%",
-    height: 166,
-    marginTop: 26,
-  },
-  pad: {
-    paddingHorizontal: 32,
+  message: {
+    color: '#3D56FA',
+    fontSize: 16,
+    marginTop: 5,
+    fontWeight: '400',
   },
 });

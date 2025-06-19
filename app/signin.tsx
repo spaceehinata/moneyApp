@@ -87,7 +87,7 @@ export default function SigninPage() {
               text="Sign In"
               arrowIcon={require("../assets/images/arrow.png")}
               backgroundImage={require("../assets/images/Group1.png")}
-              navigateTo="app/(tabs)/index.tsx"
+              navigateTo="./homepage"
             />
           </View>
         </View>

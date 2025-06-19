@@ -1,5 +1,13 @@
-import React from "react";
-import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import BurgerMenu from "../../components/BurgerMenu";
 import CustomButton from "../../components/Button";
 
 const { width: screenWidth } = Dimensions.get("window");
@@ -9,17 +17,31 @@ const DESIGN_HEIGHT = 278;
 const calculatedHeight = (DESIGN_HEIGHT / DESIGN_WIDTH) * screenWidth;
 
 export default function indexPage() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeMenu, setActiveMenu] = useState<string>("");
+
   return (
     <View style={styles.main}>
+      <BurgerMenu
+        visible={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        activeMenu={activeMenu}
+        onNavigate={(menu) => {
+        setActiveMenu(menu); }}
+      />
+
       <Image
         style={styles.image}
         source={require("../../assets/images/Rectangle 3.png")}
       />
+
       <View style={styles.topBar}>
-        <Image
-          style={styles.menuIcon}
-          source={require("../../assets/images/menuu.png")}
-        />
+        <Pressable onPress={() => setMenuOpen(true)}>
+          <Image
+            style={styles.menuIcon}
+            source={require("../../assets/images/menuu.png")}
+          />
+        </Pressable>
         <Image
           style={styles.pfp}
           source={require("../../assets/images/prof pic.png")}
@@ -44,6 +66,7 @@ export default function indexPage() {
           resizeMode="contain"
         />
       </View>
+
       <View style={styles.pad}>
         <CustomButton
           variant="bank"
@@ -52,7 +75,6 @@ export default function indexPage() {
           navigateTo="./"
         />
       </View>
-      
     </View>
   );
 }
@@ -126,13 +148,9 @@ const styles = StyleSheet.create({
     color: "#000000",
   },
   dots: {
-    textAlign: "center",
-    alignItems: "center",
-    justifyContent: "center",
     fontSize: 30,
     fontWeight: "400",
     color: "#000000",
-    // marginTop:-20,
   },
   balanceAmount: {
     fontSize: 30,
