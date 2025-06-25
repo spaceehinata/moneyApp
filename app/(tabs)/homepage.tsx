@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import {
+  Animated,
   Dimensions,
   Image,
   Pressable,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
-import BurgerMenu from "../../components/BurgerMenu";
 import CustomButton from "../../components/Button";
+import { useMenu } from "./context/MenuContext"; 
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -16,27 +18,87 @@ const DESIGN_WIDTH = 393;
 const DESIGN_HEIGHT = 278;
 const calculatedHeight = (DESIGN_HEIGHT / DESIGN_WIDTH) * screenWidth;
 
+const menuWidth = screenWidth * 0.75;
+
 export default function indexPage() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeMenu, setActiveMenu] = useState<string>("");
+  const { menuVisible, toggleMenu, closeMenu } = useMenu();
+  const slideAnim = React.useRef(new Animated.Value(-menuWidth)).current;
+
+  React.useEffect(() => {
+    Animated.timing(slideAnim, {
+      toValue: menuVisible ? 0 : -menuWidth,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [menuVisible]);
 
   return (
     <View style={styles.main}>
-      <BurgerMenu
-        visible={menuOpen}
-        onClose={() => setMenuOpen(false)}
-        activeMenu={activeMenu}
-        onNavigate={(menu) => {
-        setActiveMenu(menu); }}
-      />
+      {/* Burger Menu Overlay */}
+      {menuVisible && (
+        <TouchableOpacity
+          style={StyleSheet.absoluteFill}
+          activeOpacity={1}
+          onPress={closeMenu}
+        >
+          <Animated.View
+            style={[styles.overlay, { opacity: menuVisible ? 0.3 : 0 }]}
+          />
+        </TouchableOpacity>
+      )}
 
+      {/* Burger Menu Slide */}
+      <Animated.View
+        style={[
+          styles.sideMenu,
+          {
+            transform: [{ translateX: slideAnim }],
+            width: menuWidth,
+          },
+        ]}
+      >
+        <View style={styles.userDataWrapper}>
+          <Image
+            source={require("../../assets/images/prof pic.png")}
+            style={styles.profileImage}
+          />
+          <View>
+            <Text style={styles.name}>Charles Leclerc</Text>
+            <Text style={styles.userName}>@ScuderiaFerrari</Text>
+          </View>
+        </View>
+
+        <View style={styles.menuItems}>
+          {[
+            { label: "Payments" },
+            { label: "Transactions" },
+            { label: "My Cards" },
+            { label: "Promotions" },
+            { label: "Savings" },
+          ].map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.menuItemWrapper}
+              onPress={() => closeMenu()}
+            >
+              <Text style={styles.menuItem}>{item.label}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <TouchableOpacity style={styles.closeWrapper} onPress={closeMenu}>
+          <Text style={styles.close}>Sign Out</Text>
+        </TouchableOpacity>
+      </Animated.View>
+
+      {/* Main UI */}
       <Image
         style={styles.image}
         source={require("../../assets/images/Rectangle 3.png")}
       />
 
       <View style={styles.topBar}>
-        <Pressable onPress={() => setMenuOpen(true)}>
+        <Pressable onPress={toggleMenu}>
           <Image
             style={styles.menuIcon}
             source={require("../../assets/images/menuu.png")}
@@ -97,6 +159,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    zIndex: 10,
   },
   menuIcon: {
     width: 30,
@@ -165,5 +228,59 @@ const styles = StyleSheet.create({
   },
   pad: {
     paddingHorizontal: 32,
+  },
+
+  /* Burger Menu styles */
+  overlay: {
+    backgroundColor: "#000",
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    zIndex: 20,
+  },
+  sideMenu: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: "#fff",
+    padding: 24,
+    zIndex: 30,
+  },
+  userDataWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 32,
+  },
+  profileImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginRight: 16,
+  },
+  name: {
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  userName: {
+    fontSize: 14,
+    color: "#999",
+  },
+  menuItems: {
+    flex: 1,
+  },
+  menuItemWrapper: {
+    paddingVertical: 16,
+  },
+  menuItem: {
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  closeWrapper: {
+    marginTop: 32,
+  },
+  close: {
+    fontSize: 16,
+    color: "#f00",
   },
 });

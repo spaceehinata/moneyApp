@@ -31,6 +31,7 @@ interface Props {
   smallImage?: ImageSourcePropType;
   style?: StyleProp<ViewStyle>;
   onNavigate?: () => boolean;
+  withBorder?: boolean;
 }
 
 export default function CustomButton({
@@ -45,6 +46,7 @@ export default function CustomButton({
   smallImage,
   style,
   onNavigate,
+  withBorder,
 }: Props) {
   const router = useRouter();
 
@@ -190,7 +192,12 @@ export default function CustomButton({
         onPress={() => router.navigate(navigateTo as any)}
         disabled={!active}
       >
-        <View style={styles.completeButton}>
+      <View
+        style={[
+          styles.completeButton,
+          withBorder && styles.buttonWithBorder, 
+        ]}
+      >
           <View style={styles.combuttonContent}>
             <Text style={[styles.completeText, { color: activeColor }]}>
               {text}
@@ -389,4 +396,14 @@ const styles = StyleSheet.create({
     height: 125,
     zIndex: 1,
   },
+  buttonWithBorder: {
+  borderWidth: 1,
+  borderColor: '#2743FD',
+  shadowColor: '#1B39FF',
+  shadowOffset: { width: 0, height: 8 },
+  shadowOpacity: 0.1,
+  shadowRadius: 16,
+  elevation: 5, // Android-ზე
+},
+
 });

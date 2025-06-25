@@ -61,13 +61,14 @@ export default function UserPage() {
 
         <View style={styles.separator} />
 
-        <CustomButton
-            variant="complete"
-            text="Sign Out"
-            arrowIcon={require("../../assets/images/logout.png")}
-            navigateTo="./homepage"
-            active={true}
-        />    
+        <View style={styles.signOutContainer}>
+          <CustomButton
+              variant="white"
+              text="Sign Out"
+              arrowIcon={require("../../assets/images/out.png")}
+              navigateTo="./welcome"
+          />    
+        </View>
       </View>
     </ScrollView>
   );
@@ -145,9 +146,9 @@ const styles = StyleSheet.create({
     borderColor: "#DEE1EF",
     marginVertical: 8,
     alignSelf: "center",
+    
   },
   signOutContainer: {
     marginTop: 45,
-    paddingHorizontal: 35,
   },
 });
