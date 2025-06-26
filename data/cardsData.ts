@@ -1,0 +1,38 @@
+export const cards = [
+  {
+    id: '1',
+    balance: '$4500.00',
+    type: 'Company',
+    expiry: '01/2027',
+    lastDigits: '1695',
+    isGradient: true,
+    logo: require('../assets/images/mc.png'),
+  },
+  {
+    id: '2',
+    balance: '$200.00',
+    type: 'Home',
+    expiry: '07/2028',
+    lastDigits: '3215',
+    isGradient: false,
+    logo: require('../assets/images/mc.png'),
+  },
+    {
+    id: '3',
+    balance: '$250.00',
+    type: 'Student',
+    expiry: '07/2025',
+    lastDigits: '2462',
+    isGradient: false,
+    logo: require('../assets/images/mc.png'),
+  },
+    {
+    id: '4',
+    balance: '$4500.00',
+    type: 'TBC',
+    expiry: '05/2027',
+    lastDigits: '6969',
+    isGradient: true,
+    logo: require('../assets/images/mc.png'),
+  },
+];

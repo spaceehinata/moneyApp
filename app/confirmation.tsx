@@ -60,7 +60,7 @@ export default function ConfirmationPage() {
             text="Execute Again"
             backgroundImage={require("../assets/images/Group1.png")}
             backgroundImage2={require("../assets/images/Group3.png")}
-            navigateTo="./verification"
+            navigateTo="./"
           />  
             <CustomButton
               variant="complete"

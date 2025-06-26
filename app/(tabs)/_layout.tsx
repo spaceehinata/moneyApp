@@ -163,12 +163,14 @@ function InnerRootLayout() {
       <View style={styles.menuItems}>
         {renderMenuItem('Payments', require('../../assets/images/payment.png'))}
         {renderMenuItem('Transactions', require('../../assets/images/tran.png'), () =>
-          router.push('/transfer')
+          router.push('/transactions')
         )}
         {renderMenuItem('My Cards', require('../../assets/images/card.png'), () =>
-          router.push('/user')
+          router.push('/cardsAndTransactions')
         )}
-        {renderMenuItem('Promotions', require('../../assets/images/promot.png'))}
+        {renderMenuItem('Promotions', require('../../assets/images/promot.png'),() =>
+          router.push('/transfer')
+        )}
         {renderMenuItem('Savings', require('../../assets/images/save.png'))}
       </View>
     </View>

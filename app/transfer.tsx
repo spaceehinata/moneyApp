@@ -1,12 +1,12 @@
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
-    Dimensions,
-    Image,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 const { width: screenWidth } = Dimensions.get("window");
@@ -64,7 +64,7 @@ if (key === "→") {
               style={styles.backArrow}
             />
           </TouchableOpacity>
-          <Text style={styles.headerText}>Transaction</Text>
+          <Text style={styles.headerText}>Transfer</Text>
         </View>
       </View>
 

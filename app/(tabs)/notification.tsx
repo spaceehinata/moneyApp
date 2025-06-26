@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import {
   FlatList,
@@ -82,6 +83,8 @@ const NotificationScreen = () => {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={styles.container}
     >
+      <StatusBar style="dark" /> 
+      
       <View style={styles.searchBar}>
         <Ionicons name="search" size={22} color="#3D56FA" style={styles.searchIcon} />
         <TextInput
@@ -92,7 +95,11 @@ const NotificationScreen = () => {
           onChangeText={(text) => setSearchQuery(text)}
         />
       </View>
-      <Text style={styles.headerText}>You can check your{"\n"}notifications here.</Text>
+
+      <Text style={styles.headerText}>
+        You can check your{'\n'}notifications here.
+      </Text>
+
       <FlatList
         data={filteredNotifications}
         renderItem={renderItem}
@@ -111,7 +118,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal:30,
+    paddingHorizontal: 30,
     paddingTop: 40,
   },
   searchBar: {
@@ -121,7 +128,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 12,
     height: 45,
-    marginTop:40,
+    marginTop: 40,
   },
   searchIcon: {
     marginRight: 10,
@@ -135,7 +142,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '700',
     color: '#3A3A3A',
-    marginVertical:40,
+    marginVertical: 40,
   },
   list: {
     // paddingBottom: 40,

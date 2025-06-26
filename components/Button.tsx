@@ -226,6 +226,7 @@ export default function CustomButton({
         >
           {backgroundImage && (
             <Image source={backgroundImage} style={styles.group4Image} />
+            
           )}
           <Text style={styles.banktext}>{text}</Text>
         </LinearGradient>
